@@ -38,7 +38,8 @@ The examples folder contains Jupyter Notebooks with some of our developing think
 
 ## License
 
-[![License: UNLICENSE](https://unlicense.org)
+[License: UNLICENSE](https://github.com/TrashBirdEcology/pymodelcat/blob/master/LICENSE)
+
 
 ## Acknowledgments
 
