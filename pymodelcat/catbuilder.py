@@ -1,10 +1,8 @@
 import pandas as pd
+from sciencebasepy import Weblinks
 from sciencebasepy import SbSession
 import requests
 import json
-import extruct
-from w3lib.html import get_base_url
-from bs4 import BeautifulSoup
 
 
 class Catbuilder:
@@ -25,6 +23,8 @@ class Catbuilder:
             self.sb = SbSession().loginc(username)
         else:
             self.sb = SbSession()
+
+        self.sb_wl = Weblinks()
 
     def create_model_catalog(self, parent_id=None, title="USGS Model Catalog", body=None, delete_if_exists=True):
         if parent_id is None:
@@ -51,24 +51,21 @@ class Catbuilder:
 
         return self.sb.create_item(model_catalog_item)
 
-    def get_models(self, model_catalog_id=None):
+    def get_models(self, model_catalog_id=None, fields='title,webLinks,contacts,tags'):
         if model_catalog_id is None:
             model_catalog_id = self.default_catalog_id
 
         models = list()
-        links = list()
-        items = self.sb.find_items({'parentId': model_catalog_id, 'fields': 'title,webLinks', 'max': 100})
+
+        items = self.sb.find_items({'parentId': model_catalog_id, 'fields': fields, 'max': 100})
         while items and 'items' in items:
             for item in items['items']:
                 del item["link"]
                 del item["relatedItems"]
                 models.append(item)
-                links.extend([l["uri"] for l in item["webLinks"]])
             items = self.sb.next(items)
 
-        unique_links = list(set(links))
-
-        return models, unique_links
+        return models
 
     def load_models_spreadsheet(self, file_path="USGS_models_named_models.xlsx"):
         output_link_columns = ["Output", "Output.1", "Output.2", "Output.3", "Output.4"]
@@ -217,77 +214,150 @@ class Catbuilder:
         if return_data == "dict":
             return simple_model_list
 
-    def gather_model_meta(self, link):
-        eval_result = {
-            "url": link
-        }
+    def annotate_model_links(self, models=None, output_format="dataframe"):
+        """Runs a list of models through a link annotation process
 
-        try:
-            r = requests.get(link, headers={"Accept": "application/json"})
-        except Exception as e:
-            eval_result["error_condition"] = e
-            return eval_result
+        :param models: List of ScienceBase Items describing models
+        :param output_format: python list of dictionaries or dataframe (default)
+        :param pickle_output: dump annotated items out to pickle file
+        :return: Annotated model items in specified format
+        """
+        if models is None:
+            models = self.get_models()
 
-        try:
-            eval_result["json_response"] = r.json()
-        except Exception as e:
-            eval_result["json_response"] = None
+        annotated_items = list()
 
-        try:
-            eval_result["structured_data"] = extruct.extract(r.text, base_url=get_base_url(r.text, r.url))
-        except Exception as e:
-            eval_result["structured_data"] = None
+        for model in models:
+            annotated_items.append(self.sb_wl.process_web_links(item=model))
 
-        eval_result["meta_content"] = self.meta_scraper(r.text)
+        if output_format == "python":
+            return annotated_items
 
-        return eval_result
+        flattened_annotated_models = [self.flatten_json(i) for i in annotated_items]
 
-    def meta_scraper(self, html_content):
-        soup = BeautifulSoup(html_content, 'html.parser')
-        meta_content = dict()
+        return pd.DataFrame(flattened_annotated_models)
 
-        if soup.title is not None:
-            meta_content["title"] = soup.title.string
+    def flatten_json(self, y):
+        """ From @amirziai https://github.com/amirziai/flatten
 
-        for meta in soup.findAll("meta"):
-            metaname = meta.get('name', '')
+        :return: Flattened dictionary suitable for loading to dataframe
+        """
+        out = {}
+
+        def flatten(x, name=''):
+            if type(x) is dict:
+                for a in x:
+                    flatten(x[a], name + a + '_')
+            elif type(x) is list:
+                i = 0
+                for a in x:
+                    flatten(a, name + str(i) + '_')
+                    i += 1
+            else:
+                out[name[:-1]] = x
+
+        flatten(y)
+        return out
+
+    def link_miner(self, annotated_item, output_type="dataframe"):
+        mined_data = list()
+
+        for link in annotated_item["webLinks"]:
             try:
-                metacontent = meta["content"].strip()
+                record = dict(
+                    model_id=annotated_item["id"],
+                    model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                    model_title=annotated_item["title"],
+                    link_classification=link["title"],
+                    link_url=link["uri"]
+                )
+                record["info_type"] = "title"
+                record["info_source"] = "Title Meta Tag"
+                record["info_content"] = link["annotation"]["meta_content"]["title"]
+                mined_data.append(record)
             except:
-                metacontent = None
-            if isinstance(metaname, str) and isinstance(metacontent, str) and len(metacontent) > 0:
-                meta_content[metaname] = metacontent
+                pass
 
-        return meta_content
+            try:
+                record = dict(
+                    model_id=annotated_item["id"],
+                    model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                    model_title=annotated_item["title"],
+                    link_classification=link["title"],
+                    link_url=link["uri"]
+                )
+                record["info_type"] = "abstract"
+                record["info_source"] = "Description Meta Tag"
+                record["info_content"] = link["annotation"]["meta_content"]["description"]
+                mined_data.append(record)
+            except:
+                pass
 
-    def subset_model_meta(self, result_list, bucket="all"):
-        if bucket == "all":
-            subset = result_list
+            try:
+                record = dict(
+                    model_id=annotated_item["id"],
+                    model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                    model_title=annotated_item["title"],
+                    link_classification=link["title"],
+                    link_url=link["uri"]
+                )
+                record["info_type"] = "abstract"
+                record["info_source"] = "Abstract Meta Tag"
+                record["info_content"] = link["annotation"]["meta_content"]["abstract"]
+                mined_data.append(record)
+            except:
+                pass
 
-        if bucket == "json_response":
-            subset = [i for i in result_list if "json_response" in i.keys() and i["json_response"] is not None]
+            try:
+                for prop in link["annotation"]["structured_data"]["microdata"][0]["properties"].keys():
+                    record = dict(
+                        model_id=annotated_item["id"],
+                        model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                        model_title=annotated_item["title"],
+                        link_classification=link["title"],
+                        link_url=link["uri"]
+                    )
+                    record["info_source"] = f"Microdata Property: {prop}"
+                    record["info_type"] = prop
+                    record["info_content"] = link["annotation"]["structured_data"]["microdata"][0]["properties"][prop]
+                    mined_data.append(record)
+            except:
+                pass
 
-        if bucket == "microdata":
-            subset = [i for i in result_list if "structured_data" in i.keys() and i["structured_data"] is not None and len(
-                i["structured_data"]["microdata"]) > 0]
+            try:
+                for prop, value in link["annotation"]["structured_data"]["opengraph"][0]["properties"]:
+                    record = dict(
+                        model_id=annotated_item["id"],
+                        model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                        model_title=annotated_item["title"],
+                        link_classification=link["title"],
+                        link_url=link["uri"]
+                    )
+                    record["info_source"] = f"Microformat Property: {prop}"
+                    record["info_type"] = prop
+                    record["info_content"] = value
+                    mined_data.append(record)
+            except:
+                pass
 
-        if bucket == "json-ld":
-            subset = [i for i in result_list if "structured_data" in i.keys() and i["structured_data"] is not None and len(
-                i["structured_data"]["json-ld"]) > 0]
+            try:
+                for prop, value in link["annotation"]["xml_meta_summary"].items():
+                    record = dict(
+                        model_id=annotated_item["id"],
+                        model_sb_link=f'https://www.sciencebase.gov/catalog/item/{annotated_item["id"]}',
+                        model_title=annotated_item["title"],
+                        link_classification=link["title"],
+                        link_url=link["uri"]
+                    )
+                    record["info_source"] = f"XML Metadata Summary: {prop}"
+                    record["info_type"] = prop
+                    record["info_content"] = value
+                    mined_data.append(record)
+            except:
+                pass
 
-        if bucket == "opengraph":
-            subset = [i for i in result_list if "structured_data" in i.keys() and i["structured_data"] is not None and len(
-                i["structured_data"]["opengraph"]) > 0]
+        if output_type == "dataframe":
+            return pd.DataFrame(mined_data)
+        else:
+            return mined_data
 
-        if bucket == "microformat":
-            subset = [i for i in result_list if "structured_data" in i.keys() and i["structured_data"] is not None and len(
-                i["structured_data"]["microformat"]) > 0]
-
-        if bucket == "rdfa":
-            subset = [i for i in result_list if "structured_data" in i.keys() and i["structured_data"] is not None and len(
-                i["structured_data"]["rdfa"]) > 0]
-
-        if bucket == "meta_content":
-            subset = [i for i in result_list if "meta_content" in i.keys() and i["meta_content"] is not None]
-
-        return subset
