@@ -228,6 +228,7 @@ class Catbuilder:
         annotated_items = list()
 
         for model in models:
+            print([l["uri"] for l in model["webLinks"]])
             annotated_items.append(self.sb_wl.process_web_links(item=model))
 
         if output_format == "python":

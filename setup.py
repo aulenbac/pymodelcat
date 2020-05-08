@@ -13,9 +13,7 @@ setup(
         'requests',
         'sciencebasepy',
         'pandas',
-        'extruct',
-        'beautifulsoup4',
-        'w3lib'
+        'qgrid'
     ],
     zip_safe=False
 )
