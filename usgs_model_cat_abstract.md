@@ -1,4 +1,4 @@
-### Goals of the USGS Model Catalog project
+### Overview of the USGS Model Catalog Project
 This repository is part of an experimental approach for identifying and featuring process-based models produced and/or used by the U.S. Geological Survey (USGS), and is being designed with three primary goals:
 
 1. Increase discovery and awareness of a diverse range of models produced and/or used by the USGS
@@ -7,8 +7,6 @@ This repository is part of an experimental approach for identifying and featurin
 
 This USGS model catalog leverages existing components of data management and web infrastructure across the USGS. We are currently developing a prototype user interface within the [ScienceBase](http://sciencebase.gov/) infrastructure for exploring the data and content underlying this experimental approach referred to throughout documentation as 'USGS Model Catalog'. 
 
-
-### More information
 This project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/contributions.md).
 
 
