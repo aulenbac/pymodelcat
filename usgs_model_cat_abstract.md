@@ -1,9 +1,9 @@
-This is a prototype for a USGS Model Catalog being designed with two main goals:
+This is an experimental USGS Model Catalog being designed with two main goals:
 
-1. Help increase discovery and awareness of mathematical/statistical models produced from and used in the USGS.
-2. Improve the ability to unambiguously link to models and everything associated with them (contacts, references, web sites, code, input data, output data, etc.) to facilitate traceability and trustworthiness in interpretive results and decision support tools based on models.
+1. Help increase discovery and awareness of a diverse range of models (mostly process-based) produced from and used in the USGS.
+2. Improve the ability to link to models and things associated with them (contacts, references, web sites, code, input data, output data, etc.) to facilitate traceability and trustworthiness in interpretive results and decision support tools based on models.
 
-This is an active project in the Core Science Systems Mission Area, Science Analytics and Synthesis Program, Science Data Management Branch that complements and ties in to our other pieces of data management infrastructure for the USGS. We are developing the prototype in ScienceBase because of its flexible information model that lets us capture the necessary information in simple ways and its technical interfaces that let us work with model documentation for both input and output.
+This is an active (FY20) project in the Core Science Systems Mission Area, Science Analytics and Synthesis Program, Science Data Management Branch that complements and ties in to our other pieces of data management infrastructure for the USGS. We are developing the prototype in ScienceBase because of its flexible information model that lets us capture the necessary information in simple ways and its technical interfaces that let us work with model documentation for both input and output.
 
 Caveats and disclaimers:
 
