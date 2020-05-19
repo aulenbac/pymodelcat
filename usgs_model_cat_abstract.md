@@ -1,12 +1,19 @@
-This is an experimental USGS Model Catalog being designed with two main goals:
+### Goals of the USGS Model Catalog project
+This repository is part of an experimental approach for identifying and featuring process-based models produced and/or used by the U.S. Geological Survey (USGS), and is being designed with three primary goals:
 
-1. Help increase discovery and awareness of a diverse range of models (mostly process-based) produced from and used in the USGS.
-2. Improve the ability to link to models and things associated with them (contacts, references, web sites, code, input data, output data, etc.) to facilitate traceability and trustworthiness in interpretive results and decision support tools based on models.
+1. Increase discovery and awareness of a diverse range of models produced and/or used by the USGS
+2. Improve the ability to link to models and relevant information (e.g., contact personnel, literature, web sites, code, data, applications) 
+3. Facilitate traceability and trustworthiness in interpretive results and decision support tools based on models.
 
-This is an active (FY20) project in the Core Science Systems Mission Area, Science Analytics and Synthesis Program, Science Data Management Branch that complements and ties in to our other pieces of data management infrastructure for the USGS. We are developing the prototype in ScienceBase because of its flexible information model that lets us capture the necessary information in simple ways and its technical interfaces that let us work with model documentation for both input and output.
+This USGS model catalog leverages existing components of data management and web infrastructure across the USGS. We are currently developing a prototype user interface within the [ScienceBase](http://sciencebase.gov/) infrastructure for exploring the data and content underlying this experimental approach referred to throughout documentation as 'USGS Model Catalog'. 
 
-Caveats and disclaimers:
 
-* This is a catalog of models and not a repository or archive of models. Items in the catalog will link to archives of model outputs, data repositories containing model input data, code repositories, and other places where the digital footprint of models are housed, but this project is explicitly not intending to stand up a model repository.
-* The model catalog is by no means complete and comprehensive now. We are starting from a limited number of known existing sources of data and information associated with models such as model output data with assigned USGS Digital Object Identifiers. If your model is not represented, we want to hear from you.
-* We fully recognize that there are existing model archives within and beyond USGS that are more comprehensive and robust than this prototype. We are not setting out to compete with or subsume any of those systems but rather explore how we can contribute and add value to that larger picture.
+### More information
+This project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/contributions.md).
+
+
+### Disclaimers
+- The USGS model catalog is a __catalog of models__ and __not a repository__ or archive of models. Items in this catalog will link to archives of models and relevant materials, rather than storing original copies. 
+- The model catalog is by no means complete and comprehensive now. We are starting from a limited number of known existing sources of data and information associated with models such as model output data with assigned USGS Digital Object Identifiers. 
+- This project team recognizes that there are existing model archives that are more comprehensive and robust than this prototype. We are not setting out to compete with or subsume any of those systems but rather explore how we can contribute and add value to this  larger picture.
+
