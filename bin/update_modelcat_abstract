@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import argparse
+import pymodelcat
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--model_catalog_id", help="Model catalog item identifier in ScienceBase")
+parser.add_argument("--convert_to_html", help="True or false, convert markdown to HTML", default=True)
+args = parser.parse_args()
+
+def main():
+    cb = pymodelcat.catbuilder.Catbuilder()
+
+    print(cb.modelcat_abstract_to_sb(model_catalog_id=args.model_catalog_id, convert_to_html=args.convert_to_html))
+
+
+if __name__ == "__main__":
+    main()

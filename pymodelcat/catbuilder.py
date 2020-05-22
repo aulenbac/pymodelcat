@@ -3,6 +3,7 @@ from sciencebasepy import Weblinks
 from sciencebasepy import SbSession
 import requests
 import json
+import markdown
 
 
 class Catbuilder:
@@ -25,6 +26,9 @@ class Catbuilder:
             self.sb = SbSession()
 
         self.sb_wl = Weblinks()
+
+        self.pymodelcat_github_raw_path = "https://raw.githubusercontent.com/usgs-biolab/pymodelcat/"
+        self.modelcat_abstract_file_name = "usgs_model_cat_abstract.md"
 
     def create_model_catalog(self, parent_id=None, title="USGS Model Catalog", body=None, delete_if_exists=True):
         if parent_id is None:
@@ -362,3 +366,32 @@ class Catbuilder:
         else:
             return mined_data
 
+    def modelcat_abstract_to_sb(self, model_catalog_id=None, convert_to_html=True):
+        if model_catalog_id is None:
+            model_catalog_id = self.default_catalog_id
+
+        username = input("ScienceBase User Name: ")
+
+        try:
+            sb = SbSession().loginc(username)
+        except Exception as e:
+            return e
+
+        abstract_url = f'{self.pymodelcat_github_raw_path}master/{self.modelcat_abstract_file_name}'
+
+        abstract_content = requests.get(abstract_url).text
+
+        if convert_to_html:
+            abstract_content = markdown.markdown(abstract_content)
+
+        item_content = {
+            "id": model_catalog_id,
+            "body": abstract_content
+        }
+
+        try:
+            return_content = sb.update_item(item_content)
+        except Exception as e:
+            return_content = e
+
+        return return_content
