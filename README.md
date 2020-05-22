@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/usgs-biolab/pymodelcat/master)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/usgs-biolab/pymodelcat/) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/usgs-biolab/pymodelcat/master)
 
 # pyModelCat
 
@@ -9,3 +9,11 @@ This python package and its repository are set up as a collaborative tool and in
 If you are just after the pymodelcat package, you can install the latest master with:
 
 ```pip install git+git://github.com/usgs-biolab/pymodelcat.git@master```
+
+Note: You can, and may want to, use the environment.yml to create a separate Python environment for this tool.
+
+# Console Scripts
+
+The following console scripts are available following installation:
+
+* update_modelcat_abstract - Updates the USGS Model Catalog abstract (body) with content from the usgs_model_cat_abstract.md file in this repository. Requires ScienceBase authentication and authorization to update the item. An alternate item identifier can be supplied as an argument along with specifying whether or not to convert markdown to HTML.
