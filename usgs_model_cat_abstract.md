@@ -9,7 +9,7 @@ The USGS-MCP strives to achieve three primary goals:
 
 The USGS-MCP leverages existing components of data management and web infrastructure across the USGS. The model catalog remains in development. Work has begun using a limited number of data sources and information associated with models, assigned with USGS Digital Object Identifiers. We are currently developing a prototype user interface, referred to as the 'USGS Model Catalog', within the [ScienceBase](http://sciencebase.gov/) infrastructure to manually explore available data and other relevant information. 
 
-The project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/contributions.md).
+The project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/CONTRIBUTING.md).
 
 
 ### Disclaimers
