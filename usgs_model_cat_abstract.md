@@ -1,17 +1,19 @@
-### Overview of the USGS Model Catalog Project
-This repository is part of an experimental approach for identifying and featuring process-based models produced and/or used by the U.S. Geological Survey (USGS), and is being designed with three primary goals:
+### Overview of the U.S. Geological Survey Model Catalog Project
+The U.S. Geological Survey Model Catalog Project (USGS-MCP) uses an experimental approach for identifying and featuring scientific models developed by the U.S. Geological Survey (USGS) and those developed externally used in USGS investigations. 
 
-1. Increase discovery and awareness of a diverse range of models produced and/or used by the USGS
-2. Improve the ability to link to models and relevant information (e.g., contact personnel, literature, web sites, code, data, applications) 
-3. Facilitate traceability and trustworthiness in interpretive results and decision support tools based on models.
+The USGS-MCP strives to achieve three primary goals:
 
-This USGS model catalog leverages existing components of data management and web infrastructure across the USGS. We are currently developing a prototype user interface within the [ScienceBase](http://sciencebase.gov/) infrastructure for exploring the data and content underlying this experimental approach referred to throughout documentation as 'USGS Model Catalog'. 
+1. Improve discovery and awareness of scientific models
+2. Develop mechanisms to link scientific models to supplementary information, including professional contacts, reference literature, web resources, source code, data, and model applications 
+3. Facilitate traceability and reproducibility of model results and model-based (e.g. decision) support tools.
 
-This project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/contributions.md).
+The USGS-MCP leverages existing components of data management and web infrastructure across the USGS. We are currently developing a prototype user interface within the [ScienceBase](http://sciencebase.gov/) infrastructure for manually exploring available data and associated content, referred to throughout the documentation as 'USGS Model Catalog'. 
+
+The project is led by [Core Science Systems Mission Area](https://www.usgs.gov/mission-areas/core-science-systems), [Science Analytics and Synthesis Program](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/about), Science Data Management Branch. For more information, please see our [Contributions information](/contributions.md).
 
 
 ### Disclaimers
-- The USGS model catalog is a __catalog of models__ and __not a repository__ or archive of models. Items in this catalog will link to archives of models and relevant materials, rather than storing original copies. 
-- The model catalog is by no means complete and comprehensive now. We are starting from a limited number of known existing sources of data and information associated with models such as model output data with assigned USGS Digital Object Identifiers. 
-- This project team recognizes that there are existing model archives that are more comprehensive and robust than this prototype. We are not setting out to compete with or subsume any of those systems but rather explore how we can contribute and add value to this  larger picture.
+- The USGS model catalog is strictly a __catalog of model information__. Items in this catalog will provide links to model archives and other relevant content rather than storing copies of information directly within the catalog. 
+- In terms of status, the model catalog remains in development. Work has begun using a limited number of data sources and information associated with models, assigned with USGS Digital Object Identifiers. 
+- There are operational model archives more comprehensive and robust than the described model catalog prototype. The focus herein is to determine how USGS can better document model information and ultimately contribute to related projects developed by the scientific community at large.
 
